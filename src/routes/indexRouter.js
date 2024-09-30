@@ -14,9 +14,6 @@ const sceneryRoutes = require("./sceneryRouter");
 const seatsRouter = require("./seatsRouter");
 const userRoutes = require("./userRoutes");
 
-const PermissionRouter = require('./permissionRouter')
-
-
 // Categorias de las rutas 
 router.use("/auth", authRouter);
 router.use('/comments', commentsRouter);
@@ -29,7 +26,6 @@ router.use("/password", resetPasswordRouter);
 router.use("/scenarios", sceneryRoutes);
 router.use("/seats", seatsRouter);
 router.use("/users", userRoutes);
-router.use("/permissions", PermissionRouter);
 
 
 module.exports = router;
