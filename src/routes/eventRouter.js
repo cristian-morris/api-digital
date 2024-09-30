@@ -137,7 +137,7 @@ router.get('/pending', eventController.getPendingEvent);
  *       500:
  *         description: Error al crear el evento
  */
-router.post('/post/', eventController.postImgEvent);
+router.post('/post/', eventController.postEvent);
 
 /**
  * @swagger
