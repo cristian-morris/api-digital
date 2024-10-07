@@ -11,7 +11,7 @@ const paymentController = {
 
       const pagoId = await Payment.insertPayment(amount);
 
-      await Payment.insertCardPayment(pagoId);
+      // await Payment.insertCardPayment(pagoId);
 
       if (paymentIntent?.status !== 'completed') {
         return res.status(200).json({
@@ -44,7 +44,7 @@ const paymentController = {
   payHistory : async (req, res) => {
     try {
       const result = await Payment.getPaymentHistory();
-      res.status(200).json(result);
+      res.status(200).json(result);getPaymentHistory
     } catch (error) {
       console.error('Error al obtener el historial:', error);
       res.status(500).send('Error al obtener el historial');

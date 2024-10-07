@@ -3,33 +3,33 @@ const pool = require('../config/connection');
 const Seat = {
     create: (numberSeat, status, userId) => {
         return pool.execute(
-            'INSERT INTO Asientos (numero_asiento, estado, usuario_id) VALUES (?, ?, ?)',
+            'INSERT INTO asientos (numero_asiento, estado, usuario_id) VALUES (?, ?, ?)',
             [numberSeat, status, userId]
         );
     },
 
     findById: (seatId) => {
       return pool.execute(
-        'SELECT * FROM Asientos WHERE asiento_id = ?',
+        'SELECT * FROM asientos WHERE asiento_id = ?',
         [seatId]
       );  
     },
 
 
     findAll: () => {
-      return pool.execute('SELECT * FROM Asientos');
+      return pool.execute('SELECT * FROM asientos');
     },
     
     update:(numberSeat,status,userId, seatId) =>{
       return pool.execute(
-        'UPDATE Asientos SET numero_asiento = ?, estado = ?, usuario_id = ? WHERE asiento_id = ?',
+        'UPDATE asientos SET numero_asiento = ?, estado = ?, usuario_id = ? WHERE asiento_id = ?',
         [numberSeat,status,userId, seatId]
       )
     },
 
     delete:( seatId ) => {
         return pool.execute(
-        'DELETE FROM Asientos WHERE asiento_id = ?',
+        'DELETE FROM asientos WHERE asiento_id = ?',
         [seatId]
         )
     }
