@@ -35,11 +35,11 @@ const seatController = {
     getById: async (req, res) => {
         const seatId = req.params.seatId;
         try {
-            let seat = await Seat.findById(seatId);
-            if (seat.length === 0) {
+            const [rows, fields] = await Seat.findById(seatId);
+            if (rows.length === 0) {
                 res.status(404).json({ error: 'Asiento no encontrado' });
             } else {
-                res.json(seat[0]);
+                res.json(rows[0]);
             }
         } catch (error) {
             console.error('Error al obtener asientos por ID:', error);

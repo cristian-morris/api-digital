@@ -8,12 +8,11 @@ const Seat = {
         );
     },
 
-    findById: async(seatId) => {
-      const [rows] = await pool.execute(
+    findById: (seatId) => {
+      return pool.execute(
         'SELECT * FROM Asientos WHERE asiento_id = ?',
         [seatId]
       );  
-      return rows;  
     },
 
     findAll: () => {
