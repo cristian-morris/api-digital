@@ -4,6 +4,7 @@ const stripe = new Stripe(key);
 const pool = require("../config/connection");
 
 const Payment =  {
+  
     createPaymetIntent: async (amount, currency) => {
        return await stripe.paymentIntents.create({
         amount: amount,
@@ -24,24 +25,24 @@ const Payment =  {
           return rows.insertId;
     },
 
-    insertCardPayment: async (pagoId) => {
-        await pool.execute(
-            'INSERT INTO Pago_Tarjeta (numero_tarjeta, fecha_expiracion, cvv, pago_id) VALUES (123, CURDATE(), 123, ?)',
-            [pagoId]
-          );
-    },
+    // insertCardPayment: async (pagoId) => {
+    //     await pool.execute(
+    //         'INSERT INTO Pago_Tarjeta (numero_tarjeta, fecha_expiracion, cvv, pago_id) VALUES (123, CURDATE(), 123, ?)',
+    //         [pagoId]
+    //       );
+    // },
 
-    getPaymentHistory: async () => {
-        const [result] = await pool.query(
-            `
-              SELECT Pagos.*, Pago_Tarjeta.numero_tarjeta, Pago_Tarjeta.fecha_expiracion, Pago_Tarjeta.cvv
-              FROM Pagos
-              LEFT JOIN Pago_Tarjeta ON Pagos.pago_id = Pago_Tarjeta.pago_id
-            `
-            );
+    // getPaymentHistory: async () => {
+    //     const [result] = await pool.query(
+    //         `
+    //           SELECT Pagos.*, Pago_Tarjeta.numero_tarjeta, Pago_Tarjeta.fecha_expiracion, Pago_Tarjeta.cvv
+    //           FROM Pagos
+    //           LEFT JOIN Pago_Tarjeta ON Pagos.pago_id = Pago_Tarjeta.pago_id
+    //         `
+    //         );
 
-            return result;
-    },
+    //         return result;
+    // },
 
     getPaymentHistoryByUserId : async (usuario_id) => {
         const [result] = await pool.query(
