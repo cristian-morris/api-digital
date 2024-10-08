@@ -6,7 +6,7 @@ const paymentController = require('../controllers/paymentController');
 
 /**
  * @openapi
- * /api/payment/payment:
+ * /api/payment:
  *   post:
  *     summary: Crea un PaymentIntent con Stripe.
  *     tags:
@@ -21,11 +21,7 @@ const paymentController = require('../controllers/paymentController');
  *               amount:
  *                 type: integer
  *                 description: Monto del pago en centavos.
- *               currency:
- *                 type: string
- *                 description: Moneda del pago (ej. USD).
- *                 enum:
- *                   - "usd"
+ * 
  *     responses:
  *       '200':
  *         description: Respuesta exitosa. Devuelve el client_secret para confirmar el pago.
@@ -51,14 +47,13 @@ const paymentController = require('../controllers/paymentController');
  *                   type: string
  *                   description: Mensaje de error detallado.
  */
-router.post('/payment', paymentController.pay);
-
+router.post('/createPayment', paymentController.createPayment);
 
 /**
  * @openapi
- * /api/payment/confirm-payment:
+ * /api/payment:
  *   post:
- *     summary: Confirma un PaymentIntent con Stripe.
+ *     summary: Crea un PaymentIntent con Stripe.
  *     tags:
  *       - payment
  *     requestBody:
@@ -68,28 +63,30 @@ router.post('/payment', paymentController.pay);
  *           schema:
  *             type: object
  *             properties:
- *               paymentIntentId:
- *                 type: string
- *                 description: ID del PaymentIntent generado en el endpoint /api/checkout.
- *               paymentMethod:
- *                 type: string
- *                 description: Método de pago utilizado para confirmar el PaymentIntent.
- *                 enum:
- *                   - "pm_card_visa"
+ *               amount:
+ *                 type: integer
+ *                 description: Monto del pago en centavos.
+ *               userId:
+ *                 type: integer
+ *                 description: ID del Usuario.
+ *               eventId:
+ *                 type: integer
+ *                 description: ID del Evento.
+ * 
  *     responses:
  *       '200':
- *         description: Respuesta exitosa. Devuelve el objeto PaymentIntent confirmado.
+ *         description: Respuesta exitosa. Devuelve el client_secret para confirmar el pago.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 id:
+ *                 message:
  *                   type: string
- *                   description: ID del PaymentIntent.
- *                 status:
+ *                   description: Mensaje de confirmación.
+ *                 client_secret:
  *                   type: string
- *                   description: Estado del PaymentIntent después de la confirmación.
+ *                   description: Clave secreta del cliente para confirmar el pago.
  *       '500':
  *         description: Error interno del servidor.
  *         content:
@@ -97,13 +94,11 @@ router.post('/payment', paymentController.pay);
  *             schema:
  *               type: object
  *               properties:
- *                 error:
+ *                 message:
  *                   type: string
  *                   description: Mensaje de error detallado.
  */
-router.post('/confirm-payment', paymentController.payConfirm);
-
-
+router.post('/', paymentController.create);
 
 /**
  * @openapi
