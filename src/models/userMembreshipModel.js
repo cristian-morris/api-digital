@@ -1,5 +1,4 @@
 const pool = require("../config/connection");
-const { findAll } = require("./seatModel");
 
 const UserMembreship = {
 
