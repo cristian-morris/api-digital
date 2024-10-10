@@ -98,7 +98,7 @@ router.post('/createPayment', paymentController.createPayment);
  *                   type: string
  *                   description: Mensaje de error detallado.
  */
-router.post('/', paymentController.create);
+router.post('/', paymentController.SavePayment);
 
 /**
  * @openapi
@@ -200,5 +200,7 @@ router.get('/payment-history', paymentController.payHistory);
  *         description: Error al obtener el historial.
  */
 router.get('/history/:usuario_id', paymentController.payHistoryByUserId);
+
+router.post('/PayMembreship', paymentController.PayMembreship);
 
 module.exports = router;

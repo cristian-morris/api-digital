@@ -2,6 +2,7 @@ const Stripe = require("stripe");
 const key = process.env.PRIVATE_KEY;
 const stripe = new Stripe(key);
 const pool = require("../config/connection");
+const { findAll } = require("./seatModel");
 
 const Payment = {
 
@@ -13,29 +14,34 @@ const Payment = {
     });
   },
 
-
-
   create: (amount, userId, eventId) => {
     return pool.execute(
       'INSERT INTO pagos (monto, fecha ,usuario_id, evento_id ) VALUES (?, CURDATE() ,?, ?)',
       [amount, userId, eventId]
     );
   },
-
-
-  getPaymentHistoryByUserId: async (usuario_id) => {
+  findAll: async () => {
     const [result] = await pool.query(
-      `
-               SELECT Pagos.*, Pago_Tarjeta.numero_tarjeta, Pago_Tarjeta.fecha_expiracion, Pago_Tarjeta.cvv
-               FROM Pagos
-               LEFT JOIN Pago_Tarjeta ON Pagos.pago_id = Pago_Tarjeta.pago_id
-               WHERE Pagos.usuario_id = ?
-            `,
-      [usuario_id]
-    );
+        `
+          SELECT Pagos.*, Pago_Tarjeta.numero_tarjeta, Pago_Tarjeta.fecha_expiracion, Pago_Tarjeta.cvv
+          FROM Pagos
+          LEFT JOIN Pago_Tarjeta ON Pagos.pago_id = Pago_Tarjeta.pago_id
+        `
+        );
 
-    return result;
+        return result;
   },
+  findById : async (usuario_id) => {
+    const [result] = await pool.query(
+        `
+           SELECT * FROM pagos WHERE usuario_id = ?
+        `,
+        [usuario_id]
+        );
+
+        return result;
+      },
+
 
 };
 
