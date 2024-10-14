@@ -78,4 +78,6 @@ router.get('/list', ticketController.getTickets);
  */
 router.post('/create', ticketController.createTicket);
 
+router.post('/scanTicket', ticketController.scanTicket);
+
 module.exports = router;

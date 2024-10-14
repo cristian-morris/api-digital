@@ -34,6 +34,34 @@ const ticketController = {
     }
   },
 
+  scanTicket: async (req, res) => {
+    try {
+      const { ticketCode } = req.body;
+
+      if (!ticketCode) {
+        return res.status(400).send('Faltan datos requeridos');
+      }
+
+      const [ ticket ] = await TicketModel.getTicketByCode(ticketCode)
+
+      if (!ticket[0]?.status) {
+        return res.status(200).send('Ticket inválido');
+      }
+
+      const data = { status: 0}
+      const x = await TicketModel.update(ticket[0].ticket_id, data)
+      
+
+      
+      
+      res.status(200).json(x);
+
+
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
 };
 
 module.exports = ticketController;
