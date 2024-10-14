@@ -45,12 +45,15 @@ const ticketController = {
 
       const [ ticket ] = await TicketModel.getTicketByCode(ticketCode)
 
-      if (!ticket[0]?.status) {
+      if (ticket[0]?.status == undefined) {
         return res.status(200).send('Ticket inválido');
       }
+      if (ticket[0]?.status === 1) {
+        return res.status(200).send('El ticket ya ha sido utilizado');
+      }
 
-      const data = { status: 0}
-      const x = await TicketModel.update(ticket[0].ticket_id, data)
+      const data = { status: 1}
+      await TicketModel.update(ticket[0].ticket_id, data)
       const getEvent = await  EventModel.getEventByTicket(ticket[0].ticket_id);
   
       res.status(200).json(getEvent);
