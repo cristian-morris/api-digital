@@ -1,4 +1,5 @@
 const TicketModel = require('../models/ticketModel');
+const EventModel = require('../models/eventModel');
 const crypto = require('crypto'); 
 
 const ticketController = {
@@ -50,11 +51,9 @@ const ticketController = {
 
       const data = { status: 0}
       const x = await TicketModel.update(ticket[0].ticket_id, data)
-      
-
-      
-      
-      res.status(200).json(x);
+      const getEvent = await  EventModel.getEventByTicket(ticket[0].ticket_id);
+  
+      res.status(200).json(getEvent);
 
 
     } catch (error) {

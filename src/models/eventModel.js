@@ -33,6 +33,16 @@ const Event = {
 
         return result;
     },
+    getEventByTicket: async (ticket) =>{
+        const [result] = await pool.query(
+            `SELECT t.ticket_id, t.code, t.status, h.hora_inicio, h.hora_fin, e.nombre AS evento_nombre, e.ubicacion, e.descripcion
+            FROM tickets t
+            JOIN horarios h ON t.id_horario = h.horario_id
+            JOIN eventos e ON h.evento_id = e.evento_id
+            WHERE t.ticket_id = ?`, [ticket]
+        );
+        return result;
+    },
     postEvent: async (nombre, fecha_inicio, fecha_termino, hora, tipo_evento_id, categoria_id, ubicacion, max_per, imagen_url, monto, descripcion) => {
         const [result] = await pool.query(
             `INSERT INTO Eventos (nombre, fecha_inicio, fecha_termino, hora, tipo_evento_id, categoria_id, ubicacion, max_per, estado, autorizado_por, fecha_autorizacion, validacion_id)
